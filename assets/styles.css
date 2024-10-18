@@ -1,1 +1,73 @@
+/* Estilos generales */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: url('https://www.nasa.gov/sites/default/files/thumbnails/image/pia15109-full.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+}
 
+/* Contenedor principal */
+.container {
+    text-align: center;
+    padding-top: 50px;
+}
+
+/* Título principal */
+h1 {
+    font-size: 4rem;
+    color: #ffcc00;
+    animation: pulse 2s infinite;
+}
+
+/* Tabla */
+.table-container {
+    margin: 40px auto;
+    width: 60%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #ffcc00;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #444;
+    font-size: 1.2rem;
+}
+
+/* Animación para el título */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.9;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Animación para la tabla */
+table:hover {
+    animation: floating 2s infinite alternate;
+}
+
+@keyframes floating {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-10px);
+    }
+}
