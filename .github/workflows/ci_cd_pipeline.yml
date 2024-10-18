@@ -4,11 +4,46 @@ on:
   push:
     branches:
       - main  # Ejecutar cuando se haga push a la rama principal
+  pull_request:
+    branches:
+      - main  # Ejecutar cuando se cree un pull request a la rama principal
 
 jobs:
-  test_and_deploy:
+  # Escaneo de vulnerabilidades con CodeQL
+  codeql:
+    name: Analyze (CodeQL)
     runs-on: ubuntu-latest
 
+    permissions:
+      actions: read
+      contents: read
+      security-events: write  # Permiso necesario para generar alertas de seguridad
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript' ]  # Analizar JavaScript (también podría ser typescript u otros)
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+
+  # Pipeline de CI/CD para pruebas y despliegue en GitHub Pages
+  test_and_deploy:
+    runs-on: ubuntu-latest
+    needs: codeql  # Asegurarse de que el análisis de CodeQL se ejecute antes de desplegar
+    
     steps:
     # 1. Descargar el código fuente
     - name: Checkout code
