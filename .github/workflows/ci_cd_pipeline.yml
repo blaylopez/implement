@@ -31,12 +31,12 @@ jobs:
           echo "Prueba 2: La tabla no está presente - FALLÓ";
           exit 1;
         fi
-  # 3. Configurar el nombre y el correo de Git para los commits
+        
+    # 3. Configurar el nombre y el correo de Git para los commits
     - name: Set up Git config
       run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        
+        git config --global user.name 'GitHub Action Bot'
+        git config --global user.email 'action-bot@example.com'
         
     # 4. Despliegue en GitHub Pages
     - name: Deploy to GitHub Pages
