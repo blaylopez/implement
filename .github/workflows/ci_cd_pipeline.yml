@@ -1,0 +1,47 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Ejecutar el pipeline en cada push a la rama principal
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # 1. Chequeo del código
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # 2. Configuración de Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    # 3. Instalación de dependencias
+    - name: Install dependencies
+      run: npm install
+
+    # 4. Ejecutar pruebas
+    - name: Run tests
+      run: npm test
+
+    # 5. Escaneo de vulnerabilidades con npm audit
+    - name: Run npm audit for vulnerabilities
+      run: npm audit --audit-level=high
+
+    # 6. Build the static files (opcional si se necesita)
+    - name: Build the project
+      run: npm run build
+
+    # 7. Deploy to GitHub Pages
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./  # Directorio de publicación
