@@ -1,47 +1,40 @@
-name: CI/CD Pipeline
+name: CI/CD GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Ejecutar el pipeline en cada push a la rama principal
-  pull_request:
-    branches:
-      - main
+      - main  # Ejecutar cuando se haga push a la rama principal
 
 jobs:
-  build:
+  test_and_deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-    # 1. Chequeo del código
+    # 1. Descargar el código fuente
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # 2. Configuración de Node.js
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
+    # 2. Pruebas automatizadas con un script en Bash (sin Node.js)
+    - name: Run HTML Tests
+      run: |
+        echo "Iniciando pruebas HTML..."
+        if grep -q "<h1>UMG - GRUPO 3</h1>" index.html; then
+          echo "Prueba 1: El título está presente - OK";
+        else
+          echo "Prueba 1: El título no está presente - FALLÓ";
+          exit 1;
+        fi
 
-    # 3. Instalación de dependencias
-    - name: Install dependencies
-      run: npm install
+        if grep -q "<table" index.html; then
+          echo "Prueba 2: La tabla está presente - OK";
+        else
+          echo "Prueba 2: La tabla no está presente - FALLÓ";
+          exit 1;
+        fi
 
-    # 4. Ejecutar pruebas
-    - name: Run tests
-      run: npm test
-
-    # 5. Escaneo de vulnerabilidades con npm audit
-    - name: Run npm audit for vulnerabilities
-      run: npm audit --audit-level=high
-
-    # 6. Build the static files (opcional si se necesita)
-    - name: Build the project
-      run: npm run build
-
-    # 7. Deploy to GitHub Pages
+    # 3. Despliegue en GitHub Pages
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./  # Directorio de publicación
+        publish_dir: ./  # Publicar todo el contenido del repositorio
