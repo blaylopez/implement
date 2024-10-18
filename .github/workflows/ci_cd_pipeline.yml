@@ -31,10 +31,17 @@ jobs:
           echo "Prueba 2: La tabla no está presente - FALLÓ";
           exit 1;
         fi
-
-    # 3. Despliegue en GitHub Pages
+  # 3. Configurar el nombre y el correo de Git para los commits
+    - name: Set up Git config
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        
+        
+    # 4. Despliegue en GitHub Pages
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./  # Publicar todo el contenido del repositorio
+        publish_branch: gh-pages  # Especifica la rama de GitHub Pages
