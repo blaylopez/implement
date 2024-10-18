@@ -3,6 +3,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
+    /* Usa una imagen local para GitHub Pages */
     background: url('https://www.nasa.gov/sites/default/files/thumbnails/image/pia15109-full.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #fff;
